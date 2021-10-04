@@ -1,5 +1,7 @@
+import { destroyCookie } from "nookies";
 import { useContext, useEffect } from "react"
 import { AuthContext } from "../contexts/AuthContext"
+import { AuthTokenError } from "../errors/AuthTokenError";
 import { setupAPIClient } from "../services/api";
 import { api } from "../services/apiClient";
 
@@ -11,7 +13,6 @@ export default function Dashboard() {
   useEffect(() => {
     api.get('/me')
     .then(response => console.log(response))
-    .catch(err => console.log(err))
   }, []);
 
 
@@ -24,7 +25,7 @@ export const getServerSideProps = withSSRAuth(async (ctx) => {
   const apiClient = setupAPIClient(ctx);
   const response = await apiClient.get('/me')
 
-  console.log(response.data)
+  console.log(response.data);
   
   return {
     props: {}
